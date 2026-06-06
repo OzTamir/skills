@@ -41,7 +41,9 @@ skills/
 ```
 
 <!-- skills-list:start -->
-_No skills yet — see [Adding a skill](#adding-a-skill)._
+| Skill | Invoke | What it does |
+| --- | --- | --- |
+| [full-deliberate-mode](./skills/full-deliberate-mode/SKILL.md) | `/oz-skills:full-deliberate-mode` | When you say you're in "Full Deliberate Mode" / "FDM", Claude stops ghostwriting and instead helps you structure your thinking — using questions to find a structure you like, then prompting you to fill it with your own exact words. Never puts words in your mouth. |
 <!-- skills-list:end -->
 
 ## Adding a skill
