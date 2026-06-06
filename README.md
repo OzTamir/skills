@@ -44,6 +44,7 @@ skills/
 | Skill | Invoke | What it does |
 | --- | --- | --- |
 | [full-deliberate-mode](./skills/full-deliberate-mode/SKILL.md) | `/oz-skills:full-deliberate-mode` | When you say you're in "Full Deliberate Mode" / "FDM", Claude stops ghostwriting and instead helps you structure your thinking — using questions to find a structure you like, then prompting you to fill it with your own exact words. Never puts words in your mouth. |
+| [blog-post-writer](./skills/blog-post-writer/SKILL.md) | `/oz-skills:blog-post-writer` | Turns a project, hack, opinion, or reflection into a published post for posts.oztamir.com in Oz's voice. Interviews you first to get the real story (the itch, the dead-ends, the payoff), then drafts section-by-section and emits a Ghost-ready Markdown file. Bundles real posts as style exemplars. |
 <!-- skills-list:end -->
 
 ## Adding a skill
