@@ -1,0 +1,16 @@
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
+
+# Scratch space
+tmp/
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Node (in case a skill ships tooling)
+node_modules/
