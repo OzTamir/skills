@@ -1,0 +1,30 @@
+name: sync-vendored-skills
+
+# Keeps every skill listed in .github/vendored-skills.json in sync with its upstream
+# repo. One workflow for all vendored skills — importing a new one only adds a manifest
+# entry, never a new workflow.
+#
+# Vendored (files copied in) rather than git submodules because Claude Code's plugin
+# installer does a plain clone without --recurse-submodules, so submodule folders would
+# arrive empty for anyone installing the published marketplace.
+
+on:
+  schedule:
+    # Mondays at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-vendored-skills
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync vendored skills
+        run: ./.github/scripts/sync-vendored-skills.sh --commit

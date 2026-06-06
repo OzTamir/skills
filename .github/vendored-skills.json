@@ -1,0 +1,12 @@
+{
+  "$comment": "Registry of skills vendored from external repos. The sync-vendored-skills workflow keeps these in sync. Add entries via the import-skill skill. Each entry: name (skill folder under skills/), repo (owner/name on GitHub), ref (branch/tag/sha), upstream_dir (path to the skill root within the upstream repo; '.' if SKILL.md is at the repo root), paths (files to sync, relative to both upstream_dir and skills/<name>/).",
+  "skills": [
+    {
+      "name": "humanizer",
+      "repo": "blader/humanizer",
+      "ref": "main",
+      "upstream_dir": ".",
+      "paths": ["SKILL.md"]
+    }
+  ]
+}
