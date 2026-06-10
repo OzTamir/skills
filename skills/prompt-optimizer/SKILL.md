@@ -118,9 +118,25 @@ criteria/Constraints/Output/Stop-rules, or Claude's XML-tagged sections), use it
 
 ### Step 5 — Finishing
 
-Deliver the prompt in a single **copy-ready fenced code block**, followed by a short
-**"What changed and why"** note (3–6 bullets tying the main edits to the model's guide so
-the user learns, not just receives). Then:
+Deliver the prompt in a single **copy-ready fenced code block**, and inside that block wrap
+the prompt in clear start/end delimiter lines so the user can see *exactly* what to copy —
+everything between the markers, nothing else. Use a distinctive full-width rule and label
+it, e.g.:
+
+```
+=========================== COPY FROM HERE ===========================
+
+<the optimized prompt>
+
+============================ COPY TO HERE ============================
+```
+
+This matters because without obvious boundaries users can't tell where the prompt starts
+and ends (and may copy your surrounding commentary by mistake). Keep the delimiters on
+their own lines and don't put any other prose inside the block.
+
+After the block, add a short **"What changed and why"** note (3–6 bullets tying the main
+edits to the model's guide so the user learns, not just receives). Then:
 
 **Normal (first-message) case:**
 > Tell the user to **start a new session and paste this prompt as their first message**,
