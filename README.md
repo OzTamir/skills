@@ -47,6 +47,7 @@ skills/
 | [blog-post-writer](./skills/blog-post-writer/SKILL.md) | `/oz-skills:blog-post-writer` | Turns a project, hack, opinion, or reflection into a published post for posts.oztamir.com in Oz's voice. Interviews you first to get the real story (the itch, the dead-ends, the payoff), then drafts section-by-section and emits a Ghost-ready Markdown file. Bundles real posts as style exemplars. |
 | [humanizer](./skills/humanizer/SKILL.md) | `/oz-skills:humanizer` | Removes signs of AI-generated writing from text — inflated symbolism, promotional language, em dash overuse, rule of three, AI vocabulary, filler phrases, and more. Vendored from [blader/humanizer](https://github.com/blader/humanizer) and auto-synced. |
 | [import-skill](./skills/import-skill/SKILL.md) | `/oz-skills:import-skill` | Meta-skill: vendor an external skill from a linked GitHub repo into this plugin. Copies it into `skills/`, registers it in `.github/vendored-skills.json` so the shared workflow auto-syncs it from upstream weekly, adds attribution, bumps the version, and updates this table. |
+| [prompt-optimizer](./skills/prompt-optimizer/SKILL.md) | `/oz-skills:prompt-optimizer` | Turns a rough prompt into a strong, model-specific one engineered to the official prompting guide for the target model (GPT-5.5, Claude Opus 4.8, Claude Fable 5, …). Never assumes your intent — interviews you with AskUserQuestion first, then hands back a copy-ready prompt to paste into a fresh session. Designed to run on the first message of a session. |
 <!-- skills-list:end -->
 
 ## Adding a skill
