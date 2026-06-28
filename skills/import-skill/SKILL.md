@@ -126,8 +126,10 @@ skill's content changes upstream. You only do the minor bump for the new additio
 ### 8. Update the README skills table
 
 Add a row between the `<!-- skills-list:start -->` / `:end` markers in
-`README.md`, matching the existing format. Note in the "What it does" cell that
-it's vendored from upstream and auto-synced.
+`README.md`, under the category table that best fits the skill (the list is
+bucketed into `###` category sub-sections; add a new category table if none
+fit). Match the existing format and note in the "What it does" cell that it's
+vendored from upstream and auto-synced.
 
 ### 9. Validate
 
