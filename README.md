@@ -48,6 +48,7 @@ skills/
 | [humanizer](./skills/humanizer/SKILL.md) | `/oz-skills:humanizer` | Removes signs of AI-generated writing from text — inflated symbolism, promotional language, em dash overuse, rule of three, AI vocabulary, filler phrases, and more. Vendored from [blader/humanizer](https://github.com/blader/humanizer) and auto-synced. |
 | [import-skill](./skills/import-skill/SKILL.md) | `/oz-skills:import-skill` | Meta-skill: vendor an external skill from a linked GitHub repo into this plugin. Copies it into `skills/`, registers it in `.github/vendored-skills.json` so the shared workflow auto-syncs it from upstream weekly, adds attribution, bumps the version, and updates this table. |
 | [prompt-optimizer](./skills/prompt-optimizer/SKILL.md) | `/oz-skills:prompt-optimizer` | Turns a rough prompt into a strong, model-specific one engineered to the official prompting guide for the target model (GPT-5.5, Claude Opus 4.8, Claude Fable 5, …). Never assumes your intent — interviews you with AskUserQuestion first, then hands back a copy-ready prompt to paste into a fresh session. Designed to run on the first message of a session. |
+| [stop-slop](./skills/stop-slop/SKILL.md) | `/oz-skills:stop-slop` | Removes predictable AI writing patterns from prose — filler phrases, formulaic structures, passive voice, em dashes, vague declaratives — and scores drafts across directness, rhythm, trust, authenticity, and density. Vendored from [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) and auto-synced. |
 <!-- skills-list:end -->
 
 ## Adding a skill
