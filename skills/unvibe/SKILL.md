@@ -107,7 +107,9 @@ Wave B (parallel):      [3 gaps]     [4 simplification]
                             \             /
                           [5 synthesis → plan.md]
                                   |
-                          [6 implement + commit]
+        [6 per change: implement ⟲ fresh fit-review (≤2 rounds)]
+                                  |
+                          [   verify + commit   ]
                                   |
                           [7 summary table]
                                   |
@@ -182,17 +184,70 @@ confirm.
 You orchestrate; subagents edit. Work `parallel_group` by `parallel_group` in
 dependency order. Within a group, dispatch one implementation subagent per
 change in a single message (parallel). Use the implementation prompt in the
-reference. Constraints passed to every implementer:
+reference.
+
+An implementer does not just edit — it **proves the edit fits before it returns**,
+via a nested verify-revise loop. This is the heart of the skill's fit guarantee:
+a fresh pair of eyes that did not write the code judges whether it belongs.
+
+1. Apply the planned edit to the assigned files.
+2. Dispatch a **fresh** fit-reviewer sub-subagent (fit-reviewer prompt in the
+   reference) that compares the changed code to the code around it at four
+   widening scopes — **function, file, folder, module/package** — against the
+   house style in `grounding.md`. It returns a verdict plus *must-fix* findings
+   (each tied to the neighbor pattern the code should match) and non-blocking
+   nits. The function scope is where off-idiom code — solving the problem a
+   different way than its neighbors, reaching for a different construct or API —
+   gets caught; the module/package scope is where reinvention (new code that
+   duplicates functionality the codebase already provides) gets caught; the file
+   scope is where "you added comments to a file that has none" gets caught.
+3. If the verdict is **not-fit**, apply the must-fix guidance (assigned files
+   only, behavior preserved, aligning to the cited neighbor — never over-correcting
+   into yet another new style) and dispatch a **brand-new** fresh fit-reviewer.
+   Each round's reviewer is a clean instance with no memory of prior rounds, so it
+   cannot tunnel-vision on an earlier round's framing.
+4. **Cap: two review rounds.** If the code still isn't a fit after the second
+   fresh review, the implementer stops and returns `escalate` with the full trail
+   (what each round flagged, what it changed in response) — it must **not** run a
+   third round on its own.
+
+Constraints passed to every implementer:
 
 - Edit **only** the files named in your change. No "while I'm here" cleanups, no
   edits outside the assigned change.
-- **Do not** run any git command, stage, commit, or push. **Do not** run lint,
-  format, or tests. The orchestrator verifies and commits.
+- The **one** subagent you may spawn is the fit-reviewer — that is the sole
+  exception to "do exactly the edit." **Do not** run any git command, stage,
+  commit, or push. **Do not** run lint, format, or tests. The orchestrator does
+  all of that.
+- Dispatch each fit-reviewer with `model: "opus"` and maximum reasoning effort —
+  it is load-bearing, same as every other reasoning agent here.
 - Preserve behavior unless the change explicitly says otherwise. If you discover
-  the planned edit is wrong or unsafe, stop and return `pushback` with the
-  reason rather than improvising.
+  the planned edit itself is wrong or unsafe, stop and return `pushback` (distinct
+  from `escalate`, which is for unresolved *fit* after two rounds).
 - Two implementers must never touch the same file (each file is owned by exactly
-  one change), so concurrent dispatch is always safe.
+  one change), so concurrent dispatch is always safe; their reviewer loops are
+  independent.
+
+> Nesting assumes the implementer's agent type can itself dispatch subagents. If
+> the harness forbids subagent-spawns-subagent, run the **identical** loop from
+> the orchestrator instead: dispatch implementer → fresh fit-reviewer →
+> re-dispatch implementer with the guidance → repeat, capped at two rounds. The
+> behavior is the same; only the owner of the loop moves up one level.
+
+**Resolve escalations before committing.** For any change that returned
+`escalate`, you (the orchestrator) make the call the two fresh reviewers couldn't
+converge on, reading the trail:
+
+- If the reviewers **contradicted** each other (round 1 said inline, round 2 said
+  extract), pick the reading that best matches the house style in `grounding.md`
+  and either accept the current state or dispatch one final implementer pass with
+  a single decisive instruction.
+- If the fit problem is **real and unresolved**, or the change looks risky,
+  surface it to the user with the trail and the current diff — do **not** commit
+  it.
+
+Only once every change is fit-clean (reviewer-passed, or an escalation you
+explicitly decided) do you verify and commit.
 
 After all implementers in all groups return, **verify once** over the union of
 changed files with the narrowest reliable command the repo provides — its lint,
@@ -227,7 +282,8 @@ Print one table summarizing what was done:
 ```
 
 Follow it with: commits created (count + short SHAs), the verification command
-run and its PASS result, anything deferred or pushed back, and the literal note:
+run and its PASS result, anything deferred, pushed back, or escalated (and how
+each escalation was resolved), and the literal note:
 `Changes are committed locally on <headRefName>; review the diff and push when ready.`
 
 ## 8. Optional — PR review guide (ask first)
@@ -251,6 +307,14 @@ own instructions).
   of this skill *is* the front-loaded analysis. A shallow plan produces vibe
   edits, which defeats the purpose.
 - **Never** let two subagents edit the same file concurrently.
+- **Every** implemented change must pass a **fresh** fit-review before it is
+  committed. The fit-reviewer is read-only on the repo and judges fit against
+  `grounding.md`, **not** abstract ideals — it must never demand more abstraction,
+  more tests, or more comments than the neighbors have. A reviewer that adds slop
+  is as much a bug as an implementer that does.
+- The per-change review loop is **capped at two rounds**. Unresolved fit
+  escalates to the orchestrator (and, if still unresolved, the user) — never an
+  unbounded loop, never a silently-committed misfit.
 - **Never** commit to `main` or push without explicit instruction.
 - **Never** invent findings. Every gap/simplification must cite real evidence
   (file:line, the existing pattern). "Looks fine" is a valid phase result.
