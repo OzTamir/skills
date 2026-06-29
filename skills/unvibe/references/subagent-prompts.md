@@ -350,9 +350,9 @@ of you now. Compare against how THIS codebase writes code, not abstract ideals.
 3. Folder — do sibling modules in the same directory do this differently? Wrong
    placement, or a new pattern where the folder already has an established one?
 4. Module / package — does an existing function, helper, or type in this module
-   or package ALREADY do what the new code does? New floating helpers that
-   duplicate existing functionality are the single most important thing to catch
-   here. Search before concluding (ripgrep/grep, or whatever code-search tools the
+   or package ALREADY do what the new code does? Reinventing functionality the
+   codebase already provides is the single most important thing to catch here.
+   Search before concluding (ripgrep/grep, or whatever code-search tools the
    environment provides) and, if you find one, name the existing symbol and its
    file:line.
 

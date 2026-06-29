@@ -196,9 +196,9 @@ a fresh pair of eyes that did not write the code judges whether it belongs.
    widening scopes — **function, file, folder, module/package** — against the
    house style in `grounding.md`. It returns a verdict plus *must-fix* findings
    (each tied to the neighbor pattern the code should match) and non-blocking
-   nits. The module/package scope is where "you wrote a floating helper that
-   duplicates an existing function" gets caught; the file scope is where "you
-   added comments to a file that has none" gets caught.
+   nits. The module/package scope is where reinvention — new code that duplicates
+   functionality the codebase already provides — gets caught; the file scope is
+   where "you added comments to a file that has none" gets caught.
 3. If the verdict is **not-fit**, apply the must-fix guidance (assigned files
    only, behavior preserved, aligning to the cited neighbor — never over-correcting
    into yet another new style) and dispatch a **brand-new** fresh fit-reviewer.
