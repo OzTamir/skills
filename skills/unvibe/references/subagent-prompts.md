@@ -282,7 +282,8 @@ file.
 ## Phase 6 — Implementation (one per change; dispatch a group in parallel)
 
 ```
-You implement ONE planned change to this PR's branch. Other agents are
+You implement ONE planned change to this PR's branch, and you do NOT return until
+a FRESH reviewer agrees the result FITS the surrounding code. Other agents are
 implementing other changes to other files in parallel, so stay strictly inside
 your assigned files.
 
@@ -290,24 +291,87 @@ your assigned files.
 {PASTE THE SINGLE CHANGE BLOCK FROM plan.md HERE — id, files, intent, edit,
 preserves_behavior, risk}
 
+## Do this
+1. Make exactly the edit described, in your assigned files only. Preserve
+   behavior unless the change block explicitly says behavior changes.
+2. Validate fit before returning. Dispatch a FRESH fit-reviewer subagent (use the
+   fit-reviewer prompt below; model: "opus", maximum reasoning effort) over your
+   files. It returns: verdict (fit | not-fit), must_fix findings, and nits.
+3. If verdict is not-fit, apply the must_fix guidance — assigned files only,
+   behavior preserved, aligning to the neighbor pattern each finding cites; do
+   NOT over-correct into yet another new style — then dispatch a BRAND-NEW fresh
+   fit-reviewer. Never reuse a reviewer across rounds; each must start clean.
+4. Cap: at most TWO review rounds. If the second fresh review is STILL not-fit,
+   STOP and return `escalate` — do not run a third round yourself.
+
 ## Rules
-- Modify ONLY these files: <files>. No edits elsewhere. No "while I'm here"
-  cleanups, no reformatting untouched lines, no scope creep.
-- Make exactly the edit described. Preserve behavior unless the change block
-  explicitly says behavior changes.
-- Do NOT run git (no add/commit/push). Do NOT run lint, format, or tests. The
-  orchestrator verifies and commits across all changes.
-- Match the surrounding code's style — the whole point is to fit in. If you're
-  removing over-engineering/comments/tests, align to the house style, don't
-  introduce a new one.
-- If the planned edit turns out to be wrong, unsafe, or behavior-changing in a
-  way the block didn't intend, STOP and return pushback instead of improvising.
+- Modify ONLY these files: <files>. No edits elsewhere, no reformatting untouched
+  lines, no "while I'm here" cleanups, no scope creep.
+- The ONLY subagent you may spawn is the fit-reviewer. Do NOT run git
+  (add/commit/push), lint, format, or tests — the orchestrator does all of that
+  across changes.
+- If you are removing over-engineering / comments / tests, align to the house
+  style; don't introduce a new one.
+- If the planned edit ITSELF is wrong, unsafe, or behavior-changing in a way the
+  block didn't intend, STOP and return `pushback` (distinct from `escalate`,
+  which is for unresolved fit after two rounds).
 
 ## Return
-- status: done | pushback
-- if done: the file:line(s) you changed and a one-line description of the edit.
+- status: done | escalate | pushback
+- if done: the file:line(s) you changed, a one-line description, and the passing
+  reviewer's verdict.
+- if escalate: the full trail — each round's must_fix findings and what you
+  changed in response — so the orchestrator can make the call.
 - if pushback: the reason, and what you'd do instead.
 Do not verify, lint, or test.
+```
+
+---
+
+## Phase 6b — Fit reviewer (fresh; spawned by the implementer each round)
+
+```
+You are a FRESH reviewer with one job: decide whether a just-made code change
+FITS the code around it, or still reads as foreign. You did NOT write this code
+and you have NO memory of any previous review round — judge only what is in front
+of you now. Compare against how THIS codebase writes code, not abstract ideals.
+
+## Inputs
+- House style / baseline yardstick: {WS}/grounding.md   (read it first)
+- The files the change touched: <files>
+- The current (post-edit) state: read the files directly, or
+  `git diff {BASE}...{HEAD} -- <files>` to see what changed vs. the PR base.
+
+## Compare at four widening scopes
+1. Function — does the new/edited code match the altitude, naming, error handling,
+   and control flow of the functions right next to it?
+2. File — does it match the rest of THIS file: its comment density (if the file
+   has no comments, NEW comments are a misfit), its naming, its idioms?
+3. Folder — do sibling modules in the same directory do this differently? Wrong
+   placement, or a new pattern where the folder already has an established one?
+4. Module / package — does an existing function, helper, or type in this module
+   or package ALREADY do what the new code does? New floating helpers that
+   duplicate existing functionality are the single most important thing to catch
+   here. Search before concluding (ripgrep/grep, or whatever code-search tools the
+   environment provides) and, if you find one, name the existing symbol and its
+   file:line.
+
+## Yardstick — do NOT become a new source of slop
+- Fit over cleverness; subtraction is the default fix. Match the neighbors. Do
+  NOT demand MORE abstraction, MORE tests, or MORE comments than the surrounding
+  code has. If the neighbors are plain and inline, plain and inline is correct.
+- Behavior must be preserved. Never ask for a fix that changes what the code does.
+- Separate must_fix (a reviewer of THIS codebase would definitely flag it) from
+  nits (defensible either way). Only must_fix items block the implementer.
+
+## Output — return directly (do NOT write any file)
+- verdict: fit | not-fit   (not-fit only if there is at least one must_fix)
+- must_fix: for each — file:line, what's off (one sentence), the existing neighbor
+  pattern it should match (quote it, with its file:line), and the concrete fix
+  (usually: remove / inline / reuse <symbol>). Empty when verdict is fit.
+- nits: optional, non-blocking.
+Be honest: if it already fits, say verdict: fit with an empty must_fix. Do NOT
+manufacture findings to look thorough.
 ```
 
 ---
