@@ -344,7 +344,10 @@ of you now. Compare against how THIS codebase writes code, not abstract ideals.
 
 ## Compare at four widening scopes
 1. Function — does the new/edited code match the altitude, naming, error handling,
-   and control flow of the functions right next to it?
+   and control flow of the functions right next to it? Crucially, does it use the
+   SAME coding patterns and idioms the neighbors use — the same language
+   constructs, standard-library / framework APIs, and data structures — rather
+   than a different way of doing the same thing?
 2. File — does it match the rest of THIS file: its comment density (if the file
    has no comments, NEW comments are a misfit), its naming, its idioms?
 3. Folder — do sibling modules in the same directory do this differently? Wrong
