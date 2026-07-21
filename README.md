@@ -48,6 +48,8 @@ skills/
 | [blog-post-writer](./skills/blog-post-writer/SKILL.md) | `/oz-skills:blog-post-writer` | Turns a project, hack, opinion, or reflection into a published post for posts.oztamir.com in Oz's voice. Interviews you first to get the real story (the itch, the dead-ends, the payoff), then drafts section-by-section and emits a Ghost-ready Markdown file. Bundles real posts as style exemplars. |
 | [full-deliberate-mode](./skills/full-deliberate-mode/SKILL.md) | `/oz-skills:full-deliberate-mode` | When you say you're in "Full Deliberate Mode" / "FDM", Claude stops ghostwriting and instead helps you structure your thinking — using questions to find a structure you like, then prompting you to fill it with your own exact words. Never puts words in your mouth. |
 | [humanizer](./skills/humanizer/SKILL.md) | `/oz-skills:humanizer` | Removes signs of AI-generated writing from text — inflated symbolism, promotional language, em dash overuse, rule of three, AI vocabulary, filler phrases, and more. Vendored from [blader/humanizer](https://github.com/blader/humanizer) and auto-synced. |
+| [ogilvy-audit](./skills/ogilvy-audit/SKILL.md) | `/oz-skills:ogilvy-audit` | Audits a draft (memo, email, ad copy, article, landing page) against David Ogilvy's writing rules and the Roman & Raphaelson principles from *Writing That Works*, flagging violations by severity with quoted text and specific fixes. Imported from [@dickiebush](https://x.com/dickiebush/status/2062876058312224972) (no upstream repo; not auto-synced). |
+| [plain-english](./skills/plain-english/SKILL.md) | `/oz-skills:plain-english` | Tightens prose in two passes — Orwell/Gowers plain-English rules (cut bloat, active voice, Saxon over Latinate, kill dying metaphors) then AI-detox (banned vocabulary, em-dash budget, no preamble/closer, no reflex rule-of-three). Runs as an audit or a rewrite. Vendored from [b1rdmania/claude-plain-english-skill](https://github.com/b1rdmania/claude-plain-english-skill) and auto-synced. |
 | [stop-slop](./skills/stop-slop/SKILL.md) | `/oz-skills:stop-slop` | Removes predictable AI writing patterns from prose — filler phrases, formulaic structures, passive voice, em dashes, vague declaratives — and scores drafts across directness, rhythm, trust, authenticity, and density. Vendored from [hardikpandya/stop-slop](https://github.com/hardikpandya/stop-slop) and auto-synced. |
 
 ### Prompting
@@ -67,6 +69,12 @@ skills/
 | Skill | Invoke | What it does |
 | --- | --- | --- |
 | [import-skill](./skills/import-skill/SKILL.md) | `/oz-skills:import-skill` | Meta-skill: vendor an external skill from a linked GitHub repo into this plugin. Copies it into `skills/`, registers it in `.github/vendored-skills.json` so the shared workflow auto-syncs it from upstream weekly, adds attribution, bumps the version, and updates this table. |
+
+### Interaction & output style
+
+| Skill | Invoke | What it does |
+| --- | --- | --- |
+| [i-have-adhd](./skills/i-have-adhd/SKILL.md) | `/oz-skills:i-have-adhd` | Shapes Claude's output for a reader with ADHD — leads with the next action, numbers multi-step work, restates state across turns, suppresses tangents, gives concrete time estimates, and makes wins visible. Invoke with `/oz-skills:i-have-adhd`; stays on until you say "stop adhd mode". Vendored from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) and auto-synced. |
 <!-- skills-list:end -->
 
 ## Adding a skill

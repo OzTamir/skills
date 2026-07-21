@@ -14,6 +14,20 @@
       "ref": "main",
       "upstream_dir": ".",
       "paths": ["SKILL.md", "references/phrases.md", "references/structures.md", "references/examples.md"]
+    },
+    {
+      "name": "i-have-adhd",
+      "repo": "ayghri/i-have-adhd",
+      "ref": "main",
+      "upstream_dir": "skills/i-have-adhd",
+      "paths": ["SKILL.md"]
+    },
+    {
+      "name": "plain-english",
+      "repo": "b1rdmania/claude-plain-english-skill",
+      "ref": "main",
+      "upstream_dir": ".",
+      "paths": ["SKILL.md", "REFERENCE.md"]
     }
   ]
 }
