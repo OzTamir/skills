@@ -21,6 +21,13 @@
       "ref": "main",
       "upstream_dir": "skills/i-have-adhd",
       "paths": ["SKILL.md"]
+    },
+    {
+      "name": "plain-english",
+      "repo": "b1rdmania/claude-plain-english-skill",
+      "ref": "main",
+      "upstream_dir": ".",
+      "paths": ["SKILL.md", "REFERENCE.md"]
     }
   ]
 }
