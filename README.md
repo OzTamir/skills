@@ -68,6 +68,12 @@ skills/
 | Skill | Invoke | What it does |
 | --- | --- | --- |
 | [import-skill](./skills/import-skill/SKILL.md) | `/oz-skills:import-skill` | Meta-skill: vendor an external skill from a linked GitHub repo into this plugin. Copies it into `skills/`, registers it in `.github/vendored-skills.json` so the shared workflow auto-syncs it from upstream weekly, adds attribution, bumps the version, and updates this table. |
+
+### Interaction & output style
+
+| Skill | Invoke | What it does |
+| --- | --- | --- |
+| [i-have-adhd](./skills/i-have-adhd/SKILL.md) | `/oz-skills:i-have-adhd` | Shapes Claude's output for a reader with ADHD — leads with the next action, numbers multi-step work, restates state across turns, suppresses tangents, gives concrete time estimates, and makes wins visible. Invoke with `/oz-skills:i-have-adhd`; stays on until you say "stop adhd mode". Vendored from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) and auto-synced. |
 <!-- skills-list:end -->
 
 ## Adding a skill
