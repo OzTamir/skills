@@ -9,6 +9,8 @@ invoke one explicitly with `/oz-skills:<skill-name>`.
 
 ## Install
 
+### As a Claude Code plugin (recommended)
+
 This repo is both a Claude Code **plugin** and a single-plugin **marketplace**,
 so installing is two commands inside Claude Code:
 
@@ -23,11 +25,39 @@ To update later:
 /plugin marketplace update oztamir
 ```
 
-CLI equivalents (non-interactive):
+CLI equivalent (non-interactive):
 
 ```bash
 claude plugin marketplace add OzTamir/skills
 ```
+
+### With the skills.sh CLI (any agent)
+
+These skills are also installable with the [skills.sh](https://www.skills.sh)
+CLI, which works with Claude Code, Cursor, Copilot, Windsurf, and other agents.
+It copies the skill folders into your agent's skills directory:
+
+```bash
+# all skills in this repo, into the current project
+npx skills add OzTamir/skills
+
+# just the ones you want
+npx skills add OzTamir/skills -s blog-post-writer -s prompt-optimizer
+
+# install globally (user home) instead of per-project
+npx skills add OzTamir/skills -g
+
+# target specific agents
+npx skills add OzTamir/skills -a claude-code -a cursor
+```
+
+Other useful commands: `npx skills list` to see what's installed,
+`npx skills update` to pull the latest versions, `npx skills remove` to
+uninstall.
+
+Note that skills installed this way are **not** namespaced under the plugin, so
+invoke them as `/<skill-name>` rather than `/oz-skills:<skill-name>`. Prefer the
+plugin install on Claude Code — it tracks updates through the marketplace.
 
 ## What's inside
 
