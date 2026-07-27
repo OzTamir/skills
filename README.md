@@ -56,7 +56,7 @@ skills/
 
 | Skill | Invoke | What it does |
 | --- | --- | --- |
-| [prompt-optimizer](./skills/prompt-optimizer/SKILL.md) | `/oz-skills:prompt-optimizer` | Turns a rough prompt into a strong, model-specific one engineered to the official prompting guide for the target model (GPT-5.5, Claude Opus 4.8, Claude Fable 5, …). Never assumes your intent — interviews you with AskUserQuestion first, then hands back a copy-ready prompt to paste into a fresh session. Designed to run on the first message of a session. |
+| [prompt-optimizer](./skills/prompt-optimizer/SKILL.md) | `/oz-skills:prompt-optimizer` | Turns a rough prompt into a strong, model-specific one engineered to the official prompting guide for the target model (Claude Opus 5, Claude Fable 5, Claude Opus 4.8, GPT-5.6, GPT-5.5, …), including the Claude 5-generation context-engineering rules for system prompts, CLAUDE.md files, and skills. Never assumes your intent — interviews you with AskUserQuestion first, then hands back a copy-ready prompt to paste into a fresh session. Designed to run on the first message of a session. |
 
 ### Code
 

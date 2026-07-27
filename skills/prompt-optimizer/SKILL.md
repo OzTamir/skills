@@ -1,6 +1,6 @@
 ---
 name: prompt-optimizer
-description: Use when the user wants to turn a rough request into a well-engineered prompt for an LLM — phrasings like "optimize my prompt", "improve/refine this prompt", "help me write a good prompt for…", "make this prompt better", "rewrite this so the model does X well", or when their opening message of a session is plainly a raw task they want to run *well in a fresh session* rather than have you execute right now. Rewrites the prompt according to the prompting guide for the specific target model (OpenAI GPT-5.5, Claude Opus 4.8, Claude Fable 5, and the closest fit for others). The skill NEVER assumes the user's intent — it interviews them with AskUserQuestion first. It is designed to run on the FIRST message of a session and to hand back a copy-ready prompt to paste into a NEW session; it only runs mid-session when the user explicitly asks, and it refuses to continue an unrelated conversation afterward.
+description: Use when the user wants to turn a rough request into a well-engineered prompt for an LLM — phrasings like "optimize my prompt", "improve/refine this prompt", "help me write a good prompt for…", "make this prompt better", "rewrite this so the model does X well", or when their opening message of a session is plainly a raw task they want to run *well in a fresh session* rather than have you execute right now. Also use when the thing to optimize is durable reused context — a system prompt, CLAUDE.md, skill, or agent harness. Rewrites the prompt according to the prompting guide for the specific target model (Claude Opus 5, Claude Fable 5, Claude Opus 4.8, OpenAI GPT-5.6, GPT-5.5, and the closest fit for others). The skill NEVER assumes the user's intent — it interviews them with AskUserQuestion first. It is designed to run on the FIRST message of a session and to hand back a copy-ready prompt to paste into a NEW session; it only runs mid-session when the user explicitly asks, and it refuses to continue an unrelated conversation afterward.
 ---
 
 # Prompt Optimizer
@@ -62,12 +62,20 @@ self-contained):
 
 | Target model | Reference file | Live guide to fetch for freshest guidance |
 |---|---|---|
-| Claude Opus 4.8 (`claude-opus-4-8`) | `references/claude-opus-4-8.md` | platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8 |
+| Claude Opus 5 (`claude-opus-5`) | `references/claude-opus-5.md` | platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5 |
 | Claude Fable 5 / Mythos 5 (`claude-fable-5`) | `references/claude-fable-5.md` | platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5 |
+| Claude Opus 4.8 (`claude-opus-4-8`) | `references/claude-opus-4-8.md` | platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8 |
+| Claude Sonnet 5 (`claude-sonnet-5`) | `references/claude-opus-5.md` + `references/context-engineering-claude-5.md` | platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5 |
+| OpenAI GPT-5.6 (`gpt-5.6` / `-sol` / `-terra` / `-luna`) | `references/openai-gpt-5-6.md` | developers.openai.com/api/docs/guides/latest-model |
 | OpenAI GPT-5.5 (`gpt-5.5`) | `references/openai-gpt-5-5.md` | developers.openai.com/api/docs/guides/prompt-guidance?model=gpt-5.5 |
-| Other Claude model | closest of the two Claude files | platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices |
-| Other OpenAI/GPT model | `references/openai-gpt-5-5.md` | developers.openai.com/api/docs/guides/latest-model |
+| Other Claude model | closest of the Claude files | platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices |
+| Other OpenAI/GPT model | `references/openai-gpt-5-6.md` | developers.openai.com/api/docs/guides/latest-model |
 | Anything else (Gemini, Llama, …) | apply the general principles in the closest file | — (tell the user the guidance is generic, not model-specific) |
+
+Any Claude 5-generation target (Opus 5, Fable 5, Mythos 5, Sonnet 5) also gets
+`references/context-engineering-claude-5.md` — **mandatory** when the thing being optimized
+is durable reused context (system prompt, CLAUDE.md, skill, tool descriptions, agent
+harness), and worth a skim otherwise.
 
 ### Step 2 — Load the guidance
 
@@ -77,6 +85,14 @@ network, the bundled reference is the authoritative fallback — it's enough on 
 the model-specific levers in that file drive the rewrite; a generic "good prompt" is not
 the goal.
 
+**On current frontier models, optimizing often means subtracting.** Both vendors now say
+this explicitly. Claude 5-generation models are over-constrained by prompts written for
+older ones: verification and re-check instructions, absolute prohibitions, repeated
+instructions, and example galleries all now cost quality rather than buying it. OpenAI
+measured leaner system prompts scoring ~10–15% *better* on evals while cutting tokens
+41–66%. If the user brought you an existing prompt, expect the optimized version to be
+*shorter* than the original, and say so when it is.
+
 ### Step 3 — Interview the user (the heart of the skill)
 
 Use **AskUserQuestion**. Your job is to eliminate every assumption a good prompt would
@@ -85,11 +101,15 @@ question, and present that hypothesis as the recommended option — but always l
 way to answer in their own words.
 
 Cover the dimensions that the target model's guide says matter most (the reference file
-tells you which to prioritize — e.g. outcome + stop-rules for GPT-5.5; scope + brevity for
-Fable 5; explicit scope + format for Opus 4.8). Across one or more rounds of questions,
-nail down whichever of these are still ambiguous:
+tells you which to prioritize — e.g. outcome + autonomy boundaries + stop-rules for GPT-5.6;
+outcome + stop-rules for GPT-5.5; scope + brevity for Fable 5; scope + length + narration
+cadence for Opus 5; explicit scope + format for Opus 4.8). Across one or more rounds of
+questions, nail down whichever of these are still ambiguous:
 
 - **Target model** — confirm or correct your inferred default (recommend the inferred one).
+- **What kind of artifact this is** — a one-shot prompt for a single task, or durable context
+  reused across many unpredictable requests (system prompt, CLAUDE.md, skill, tool
+  descriptions)? Ask if it isn't obvious; it changes the whole approach on Claude 5 targets.
 - **The actual goal / outcome** — what "done and good" looks like, not just the topic.
 - **Audience & context** — who the output is for; the larger task it feeds into; *why*.
 - **Output format, length, and tone** — structure, how long, what voice.
@@ -159,5 +179,9 @@ edits to the model's guide so the user learns, not just receives). Then:
   levers. The model-specific deltas are the whole value.
 - Offering AskUserQuestion options that are all minor variants of one decision you already
   made. Give real alternatives, recommendation first.
+- Assuming "optimized" means "longer". On current frontier targets (Claude 5-generation,
+  GPT-5.6), padding a prompt with verification steps, re-check instructions, absolute
+  prohibitions, repeated rules, and example galleries makes the result *worse*. Cut before
+  you add.
 - Continuing to chat / executing the task in the normal first-message case. Hand off and
   stop.
