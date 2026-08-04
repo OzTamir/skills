@@ -28,6 +28,13 @@
       "ref": "main",
       "upstream_dir": ".",
       "paths": ["SKILL.md", "REFERENCE.md"]
+    },
+    {
+      "name": "simple-english",
+      "repo": "AminBlg/SimpleEnglish",
+      "ref": "main",
+      "upstream_dir": "skills/simple-english",
+      "paths": ["SKILL.md", "references/checklist.md", "references/use-cases.md"]
     }
   ]
 }
