@@ -1,6 +1,7 @@
 ---
 name: plain-english
-description: Tighten prose by stripping AI tics and applying Orwell/Gowers plain-English rules. Use when the user asks to rewrite, tighten, simplify, or detox writing — phrases like "plain English", "make this clearer", "cut the AI voice", "fix the writing", "rewrite plainly", "tighten this", "detox this". Also run as a self-audit pass before delivering long-form prose (essays, blog posts, articles, reports) so the output isn't recognisably AI-generated. Three modes: audit (flag + suggest), rewrite (deliver cleaned prose), edit (fix a named file in place). Technical documentation routes to the simple-english skill instead.
+description: >-
+  Tighten prose by stripping AI tics and applying Orwell/Gowers plain-English rules. Use when the user asks to rewrite, tighten, simplify, or detox writing — phrases like "plain English", "make this clearer", "cut the AI voice", "fix the writing", "rewrite plainly", "tighten this", "detox this". Also run as a self-audit pass before delivering long-form prose (essays, blog posts, articles, reports) so the output isn't recognisably AI-generated. Three modes: audit (flag + suggest), rewrite (deliver cleaned prose), edit (fix a named file in place). Technical documentation routes to the simple-english skill instead.
 ---
 
 # Plain English
@@ -16,7 +17,7 @@ Strip prose of two layers of bad habits:
 |------|---------------|----------------|
 | **Audit** | User pastes prose and asks for critique | For each flagged sentence: original → one-line flag (e.g. *passive without agent*, *abstract subject*, *banned word: leverage*) → suggested rewrite. Don't lecture. Don't restate the rules. |
 | **Rewrite** | User asks for a rewrite, OR this skill is invoked as a self-audit before delivering long-form output | Cleaned prose first. If the user asked for explanation, follow with 2–3 bullets of what changed. Bullets, not paragraphs. Then re-read your own rewrite against the Core rules once more (second pass) — fix anything that survived, silently, before returning. |
-| **Edit** | User names a file and asks to fix or clean it in place | Minimal, targeted edits with the Edit tool — change the flagged spans only. Leave passages with no tells untouched. Don't touch quoted material or text attributed to someone else — flag those instead. Report what changed, not the whole file. |
+| **Edit** | User names a file and asks to fix or clean it in place | Use the available file-editing tools to make minimal, targeted edits — change the flagged spans only. Leave passages with no tells untouched. Don't touch quoted material or text attributed to someone else — flag those instead. Report what changed, not the whole file. |
 
 ## Core rules
 
@@ -86,7 +87,7 @@ For the whole text:
 
 ## Routing: plain-english vs simple-english
 
-This skill is for prose with a voice — essays, posts, emails, chat, marketing, anything where rhythm matters. Technical documentation (READMEs, runbooks, procedures, error messages, incident reports) is a different job with a different reader, better served by a controlled-language skill built on ASD-STE100 — e.g. [SimpleEnglish](https://github.com/AminBlg/SimpleEnglish). The two conflict by design (STE expands contractions, keeps every article, writes "make sure that" where this skill writes "ensure"), so never apply both to the same text. If an STE skill is installed, hand technical docs to it instead of applying the rules here.
+This skill is for prose with a voice — essays, posts, emails, chat, marketing, anything where rhythm matters. Technical documentation (READMEs, runbooks, procedures, error messages, incident reports) is a different job with a different reader, better served by `$simple-english`, the companion ASD-STE100 skill bundled with the plugin. The two conflict by design (STE expands contractions, keeps every article, writes "make sure that" where this skill writes "ensure"), so never apply both to the same text. Route technical documentation to `$simple-english` when it is available.
 
 ## When NOT to apply
 
