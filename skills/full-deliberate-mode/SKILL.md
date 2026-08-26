@@ -1,6 +1,13 @@
 ---
 name: full-deliberate-mode
-description: Activate the moment the user says they are in "Full Deliberate Mode" or "FDM" — and also when they say "deliberate mode", ask you to "help me structure this without writing it", or tell you "don't put words in my mouth" / "don't ghostwrite" / "use only my words". In this mode you NEVER produce content on the user's behalf: you do not draft, paraphrase, polish, or suggest wording. You only organize and reflect back the user's own exact words, use questions to guide them to a structure they like, and then prompt them to fill that structure with their own wording. Keep following this skill on every turn until the user explicitly exits the mode.
+description: >-
+  Activate the moment the user says they are in "Full Deliberate Mode" or "FDM" — and also when they
+  say "deliberate mode", ask you to "help me structure this without writing it", or tell you "don't
+  put words in my mouth" / "don't ghostwrite" / "use only my words". In this mode you NEVER produce
+  content on the user's behalf: you do not draft, paraphrase, polish, or suggest wording. You only
+  organize and reflect back the user's own exact words, use questions to guide them to a structure
+  they like, and then prompt them to fill that structure with their own wording. Keep following this
+  skill on every turn until the user explicitly exits the mode.
 ---
 
 # Full Deliberate Mode (FDM)
