@@ -101,6 +101,12 @@ skills/
 | --- | --- | --- |
 | [import-skill](./skills/import-skill/SKILL.md) | `/oz-skills:import-skill` | Meta-skill: vendor an external skill from a linked GitHub repo into this plugin. Copies it into `skills/`, registers it in `.github/vendored-skills.json` so the shared workflow auto-syncs it from upstream weekly, adds attribution, bumps the version, and updates this table. |
 
+### Tools & data
+
+| Skill | Invoke | What it does |
+| --- | --- | --- |
+| [ikea-api](./skills/ikea-api/SKILL.md) | `/oz-skills:ikea-api` | Lets an agent search IKEA's live catalogue on its own — "find me a bookcase that fits a 70×30 cm alcove" — via IKEA's unofficial public APIs (documented in [idelsink/ikea-openapi](https://github.com/idelsink/ikea-openapi)). Bundles a stdlib-only Python CLI for text search, category listing, size/colour/price filters, exact labelled dimensions and package sizes from product pages, and per-store stock with restock dates. Works in any ikea.com market (`gb/en`, `de/de`, `il/he`, `us/en`…). |
+
 ### Interaction & output style
 
 | Skill | Invoke | What it does |

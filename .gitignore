@@ -14,3 +14,5 @@ tmp/
 
 # Node (in case a skill ships tooling)
 node_modules/
+__pycache__/
+*.pyc
