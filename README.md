@@ -105,6 +105,7 @@ skills/
 
 | Skill | Invoke | What it does |
 | --- | --- | --- |
+| [hebrew-rhymes](./skills/hebrew-rhymes/SKILL.md) | `/oz-skills:hebrew-rhymes` | Finds real Hebrew rhymes and wordplay through Dicta's [Charuzit](https://wordplay.dicta.org.il): rhymes, assonance/consonance (מצלול), alliteration, letter-and-nikud word patterns (תבנית מילה), and semantic-field search. Bundles a stdlib-only Python CLI for the site's unofficial API with every sidebar filter (part of speech, gender/number/person, tense, suffixes, syllable count, stress, loanwords, proper names, Tanakh). Handles vocalization of unpointed input. |
 | [ikea-api](./skills/ikea-api/SKILL.md) | `/oz-skills:ikea-api` | Lets an agent search IKEA's live catalogue on its own — "find me a bookcase that fits a 70×30 cm alcove" — via IKEA's unofficial public APIs (documented in [idelsink/ikea-openapi](https://github.com/idelsink/ikea-openapi)). Bundles a stdlib-only Python CLI for text search, category listing, size/colour/price filters, exact labelled dimensions and package sizes from product pages, and per-store stock with restock dates. Works in any ikea.com market (`gb/en`, `de/de`, `il/he`, `us/en`…). |
 
 ### Interaction & output style
